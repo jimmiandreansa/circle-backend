@@ -1,0 +1,77 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model User {
+  id Int @id @default(autoincrement())
+  username String @unique
+  fullname String
+  email String @unique
+  password String
+  profile Profile?
+  thread Thread[]
+  like Like[] @relation("user")
+  follower Follow[] @relation("follower")
+  following Follow[] @relation("following")
+}
+
+model Profile {
+  id Int @id @default(autoincrement())
+  user User @relation(fields: [userId], references: [id])
+  userId Int @unique
+  avatar String?
+  cover String?
+  bio String?
+  fullname String?
+  username String?
+}
+
+model Thread {
+  id Int @id @default(autoincrement())
+  content String?
+  author User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId Int
+  like Like[] @relation("thread")
+  threadId Int?
+  parent Thread? @relation("threadReplies", fields: [threadId], references: [id])
+  replies Thread[] @relation("threadReplies")
+  image ThreadImage[]
+  create DateTime @default(now())
+}
+
+model Like {
+  user User @relation("user", fields: [userId], references: [id])
+  userId Int
+  thread Thread @relation("thread", fields: [threadId], references: [id], onDelete: Cascade)
+  threadId Int
+
+  @@id([userId, threadId])
+}
+
+model Follow {
+  follower User @relation("follower", fields: [followerId], references: [id])
+  followerId Int
+  following User @relation("following", fields: [followingId], references: [id])
+  followingId Int
+
+  @@id([followerId, followingId])
+}
+
+model ThreadImage {
+  id Int @id @default(autoincrement())
+  image String
+  thread Thread @relation(fields: [threadId], references: [id], onDelete: Cascade)
+  threadId Int
+}
