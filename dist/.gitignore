@@ -1,8 +1,0 @@
-node_modules/
-.env
-src/uploads/*.jpg
-src/uploads/*.png
-.vercel
-
-prisma
-src
