@@ -1,7 +1,7 @@
 import express from "express"
 import * as dotenv from "dotenv"
-import db from "./db"
-import router from "./routes"
+import db from "./src/db"
+import router from "./src/routes"
 import path from "path"
 import cors from "cors"
 import pg from "pg";

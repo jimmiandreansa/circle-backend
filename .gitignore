@@ -3,3 +3,6 @@ node_modules/
 src/uploads/*.jpg
 src/uploads/*.png
 .vercel
+
+prisma
+src
