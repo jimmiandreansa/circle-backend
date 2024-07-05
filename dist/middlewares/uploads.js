@@ -76,33 +76,46 @@ const multerMiddleware = () => {
                                 const imageUrl = yield cloudinary_1.v2.uploader.upload(img.path, {
                                     folder: "Threads",
                                 });
-                                const images = {
-                                    image: imageUrl.secure_url,
-                                };
-                                return images;
+                                return { image: imageUrl.secure_url };
                             }
                             catch (error) {
-                                console.log(error);
+                                console.log("Error uploading image:", error);
                                 throw error;
                             }
                         })));
                         req.body.images = imagesUrls;
                     }
                     if (avatar && avatar.length > 0) {
-                        const avatarUrl = yield cloudinary_1.v2.uploader.upload(avatar[0].path, {
-                            folder: "Profiles",
-                        });
-                        req.body.avatar = avatarUrl.secure_url;
+                        try {
+                            const avatarUrl = yield cloudinary_1.v2.uploader.upload(avatar[0].path, {
+                                folder: "Profiles",
+                            });
+                            req.body.avatar = avatarUrl.secure_url;
+                        }
+                        catch (error) {
+                            console.log("Error uploading avatar:", error);
+                            throw error;
+                        }
                     }
                     if (cover && cover.length > 0) {
-                        const coverUrl = yield cloudinary_1.v2.uploader.upload(cover[0].path, {
-                            folder: "Profiles",
-                        });
-                        req.body.cover = coverUrl.secure_url;
+                        try {
+                            const coverUrl = yield cloudinary_1.v2.uploader.upload(cover[0].path, {
+                                folder: "Profiles",
+                            });
+                            req.body.cover = coverUrl.secure_url;
+                        }
+                        catch (error) {
+                            console.log("Error uploading cover:", error);
+                            throw error;
+                        }
                     }
                 }
                 catch (error) {
-                    console.log(error);
+                    console.log("Error during file processing:", error);
+                    return res.status(500).json({
+                        status: false,
+                        message: "An error occurred while processing files",
+                    });
                 }
             }
             next();

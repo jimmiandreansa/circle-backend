@@ -4,22 +4,18 @@ import { IEditProfile, IProfile } from "../types/app";
 export const updateProfile = async (userId: number, payload: IProfile) => {
   const dataToUpdate: Partial<IEditProfile> = {};
 
-  // Perbarui bidang bio jika diisi
   if (payload.bio !== undefined && payload.bio !== null) {
     dataToUpdate.bio = payload.bio;
   }
 
-  // Perbarui bidang avatar jika diisi
   if (payload.avatar !== undefined && payload.avatar !== null) {
     dataToUpdate.avatar = payload.avatar;
   }
 
-  // Perbarui bidang cover jika diisi
   if (payload.cover !== undefined && payload.cover !== null) {
     dataToUpdate.cover = payload.cover;
   }
 
-  // Perbarui bidang fullname jika diisi
   if (payload.fullname !== undefined && payload.fullname !== null) {
     await db.user.update({
       where: {
@@ -31,7 +27,6 @@ export const updateProfile = async (userId: number, payload: IProfile) => {
     });
   }
 
-  // Perbarui bidang username jika diisi
   if (payload.username !== undefined && payload.username !== null) {
     await db.user.update({
       where: {
@@ -43,7 +38,6 @@ export const updateProfile = async (userId: number, payload: IProfile) => {
     });
   }
 
-  // Perbarui profil dengan data yang telah diupdate
   return await db.profile.update({
     where: {
       userId: userId,
@@ -51,17 +45,6 @@ export const updateProfile = async (userId: number, payload: IProfile) => {
     data: dataToUpdate,
   });
 };
-
-// export const updateProfile = async (userId: number, payload: IProfile) => {
-//   return await db.profile.update({
-//       where: {
-//           userId
-//       },
-//       data: {
-//           ...payload
-//       }
-//   })
-// }
 
 export const getProfile = async (userId: number) => {
   return await db.profile.findFirst({

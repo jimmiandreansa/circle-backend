@@ -1,6 +1,7 @@
 import { Router } from "express";
-import uploadMiddleware from "../middlewares/upload";
-import cloudinary from "../libs/cloudinary"
+// import { upload } from "../middlewares/upload";]
+import uploadMiddleware from "../middlewares/uploads";
+import cloudinary from "../libs/cloudinary";
 import authentication from "../middlewares/authentication";
 import {
   updateProfile,

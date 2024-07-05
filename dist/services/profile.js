@@ -16,19 +16,15 @@ exports.getAllProfileUsers = exports.getProfileById = exports.getProfile = expor
 const db_1 = __importDefault(require("../db"));
 const updateProfile = (userId, payload) => __awaiter(void 0, void 0, void 0, function* () {
     const dataToUpdate = {};
-    // Perbarui bidang bio jika diisi
     if (payload.bio !== undefined && payload.bio !== null) {
         dataToUpdate.bio = payload.bio;
     }
-    // Perbarui bidang avatar jika diisi
     if (payload.avatar !== undefined && payload.avatar !== null) {
         dataToUpdate.avatar = payload.avatar;
     }
-    // Perbarui bidang cover jika diisi
     if (payload.cover !== undefined && payload.cover !== null) {
         dataToUpdate.cover = payload.cover;
     }
-    // Perbarui bidang fullname jika diisi
     if (payload.fullname !== undefined && payload.fullname !== null) {
         yield db_1.default.user.update({
             where: {
@@ -39,7 +35,6 @@ const updateProfile = (userId, payload) => __awaiter(void 0, void 0, void 0, fun
             },
         });
     }
-    // Perbarui bidang username jika diisi
     if (payload.username !== undefined && payload.username !== null) {
         yield db_1.default.user.update({
             where: {
@@ -50,7 +45,6 @@ const updateProfile = (userId, payload) => __awaiter(void 0, void 0, void 0, fun
             },
         });
     }
-    // Perbarui profil dengan data yang telah diupdate
     return yield db_1.default.profile.update({
         where: {
             userId: userId,
@@ -59,16 +53,6 @@ const updateProfile = (userId, payload) => __awaiter(void 0, void 0, void 0, fun
     });
 });
 exports.updateProfile = updateProfile;
-// export const updateProfile = async (userId: number, payload: IProfile) => {
-//   return await db.profile.update({
-//       where: {
-//           userId
-//       },
-//       data: {
-//           ...payload
-//       }
-//   })
-// }
 const getProfile = (userId) => __awaiter(void 0, void 0, void 0, function* () {
     return yield db_1.default.profile.findFirst({
         where: {

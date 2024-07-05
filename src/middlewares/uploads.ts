@@ -64,6 +64,7 @@ const multerMiddleware = () => {
             [fieldName: string]: Express.Multer.File[];
           };
           const { image, avatar, cover } = files;
+
           if (image && image.length > 0) {
             const imagesUrls = await Promise.all(
               image.map(async (img) => {
@@ -71,12 +72,9 @@ const multerMiddleware = () => {
                   const imageUrl = await cloudinary.uploader.upload(img.path, {
                     folder: "Threads",
                   });
-                  const images = {
-                    image: imageUrl.secure_url,
-                  };
-                  return images;
+                  return { image: imageUrl.secure_url };
                 } catch (error) {
-                  console.log(error);
+                  console.log("Error uploading image:", error);
                   throw error;
                 }
               })
@@ -85,20 +83,37 @@ const multerMiddleware = () => {
           }
 
           if (avatar && avatar.length > 0) {
-            const avatarUrl = await cloudinary.uploader.upload(avatar[0].path, {
-              folder: "Profiles",
-            });
-            req.body.avatar = avatarUrl.secure_url;
+            try {
+              const avatarUrl = await cloudinary.uploader.upload(
+                avatar[0].path,
+                {
+                  folder: "Profiles",
+                }
+              );
+              req.body.avatar = avatarUrl.secure_url;
+            } catch (error) {
+              console.log("Error uploading avatar:", error);
+              throw error;
+            }
           }
 
           if (cover && cover.length > 0) {
-            const coverUrl = await cloudinary.uploader.upload(cover[0].path, {
-              folder: "Profiles",
-            });
-            req.body.cover = coverUrl.secure_url;
+            try {
+              const coverUrl = await cloudinary.uploader.upload(cover[0].path, {
+                folder: "Profiles",
+              });
+              req.body.cover = coverUrl.secure_url;
+            } catch (error) {
+              console.log("Error uploading cover:", error);
+              throw error;
+            }
           }
         } catch (error) {
-          console.log(error);
+          console.log("Error during file processing:", error);
+          return res.status(500).json({
+            status: false,
+            message: "An error occurred while processing files",
+          });
         }
       }
 

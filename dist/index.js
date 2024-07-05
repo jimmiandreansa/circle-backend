@@ -51,7 +51,7 @@ app.use((0, cors_1.default)());
 app.use("/uploads", express_1.default.static(path_1.default.join(__dirname, "src/uploads")));
 app.use(routes_1.default);
 app.get("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    res.send("Hello Coding");
+    res.send("This is the backend for Circle App by Jimmi Andreansa");
 }));
 app.listen(PORT, () => __awaiter(void 0, void 0, void 0, function* () {
     yield db_1.default.$connect();

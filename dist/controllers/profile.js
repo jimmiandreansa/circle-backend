@@ -47,20 +47,21 @@ const updateProfile = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         const files = req.files;
         if (files.cover && files.cover.length > 0) {
             const cover = files.cover[0].filename;
-            // body.cover = cover;
+            body.cover = cover;
             const cloudinaryRes = yield cloudinary_1.v2.uploader.upload("./src/uploads/" + cover);
             body.cover = cloudinaryRes.secure_url;
         }
         if (files.avatar && files.avatar.length > 0) {
             const avatar = files.avatar[0].filename;
-            // body.avatar = avatar;
+            body.avatar = avatar;
             const cloudinaryRes = yield cloudinary_1.v2.uploader.upload("./src/uploads/" + avatar);
             body.avatar = cloudinaryRes.secure_url;
         }
         yield profileServices.updateProfile(userId, body);
         res.json({
             status: true,
-            message: "success",
+            message: "jfhskejfjsefuisnefksjnefuesuk",
+            data: body
         });
     }
     catch (error) {
@@ -79,7 +80,7 @@ const getProfile = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         const profile = yield profileServices.getProfile(userId);
         res.json({
             status: true,
-            message: "success",
+            message: "success ambil profel",
             data: profile,
         });
     }
@@ -119,7 +120,7 @@ const getAllProfileUsers = (req, res) => __awaiter(void 0, void 0, void 0, funct
         res.json({
             status: true,
             message: "success",
-            data: profile
+            data: profile,
         });
     }
     catch (error) {
