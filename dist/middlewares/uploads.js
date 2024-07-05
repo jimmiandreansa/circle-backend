@@ -18,11 +18,8 @@ const cloudinary_2 = __importDefault(require("../libs/cloudinary"));
 const path_1 = __importDefault(require("path"));
 (0, cloudinary_2.default)();
 const storage = multer_1.default.diskStorage({
-    // destination: function (req, file, cb) {
-    //   cb(null, "./src/uploads");
-    // },
     destination: function (req, file, cb) {
-        cb(null, path_1.default.join(__dirname, "../uploads"));
+        cb(null, "./src/uploads");
     },
     filename: function (req, file, cb) {
         const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
