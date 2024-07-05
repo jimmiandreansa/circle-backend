@@ -1,7 +1,7 @@
 node_modules/
 .env
-src/uploads/*.jpg
-src/uploads/*.png
+# src/uploads/*.jpg
+# src/uploads/*.png
 .vercel
 
 prisma
