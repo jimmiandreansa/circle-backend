@@ -6,8 +6,11 @@ import path from "path";
 
 cloudinaryConfig();
 const storage = multer.diskStorage({
+  // destination: function (req, file, cb) {
+  //   cb(null, "./src/uploads");
+  // },
   destination: function (req, file, cb) {
-    cb(null, "./src/uploads");
+    cb(null, path.join(__dirname, "../uploads"));
   },
   filename: function (req, file, cb) {
     const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
@@ -20,7 +23,7 @@ const storage = multer.diskStorage({
 const upload = multer({
   storage,
   limits: {
-    fileSize: 1024 * 1024 * 2,
+    fileSize: 1024 * 1024 * 4,
   },
 }).fields([
   {
